@@ -21,6 +21,12 @@ configuration.load do
       stop
       start
     end
+
+    desc 'Configure init.d script from config/deploy/passenger-init.d'
+    task :initd do
+      sudo "ln -nfs #{current_path}/config/deploy/passenger-init.d /etc/init.d/#{application} && chmod +x /etc/init.d/#{application}"
+      sudo "update-rc.d #{application} defaults"
+    end
   end
 
   namespace :deploy do
