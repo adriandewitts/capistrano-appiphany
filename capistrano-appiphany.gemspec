@@ -15,6 +15,17 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = [
     "README.textile"
   ]
+  s.files = [
+    "README.textile",
+    "Rakefile",
+    "VERSION",
+    "capistrano-appiphany.gemspec",
+    "lib/appiphany/apache.rb",
+    "lib/appiphany/base.rb",
+    "lib/appiphany/common.rb",
+    "lib/appiphany/passenger.rb",
+    "lib/appiphany/thinking_sphinx.rb"
+  ]
   s.homepage = "http://github.com/ivanyv/capistrano-appiphany"
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.10"
