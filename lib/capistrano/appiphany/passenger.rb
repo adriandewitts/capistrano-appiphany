@@ -6,14 +6,17 @@ configuration = Capistrano::Configuration.respond_to?(:instance) ?
 
 configuration.load do
   namespace :passenger do
+    desc 'Start a Passenger Standalone instance'
     task :start do
       run "cd #{current_path} && RBENV_VERSION=#{rbenv_version} passenger start -a127.0.0.1 -p#{passenger_port} -e production -d"
     end
 
+    desc 'Stop a Passenger Standalone instance'
     task :stop do
       run "cd #{current_path} && RBENV_VERSION=#{rbenv_version} passenger stop -p#{passenger_port}"
     end
 
+    desc 'Restart a Passenger Standalone instance'
     task :restart do
       stop
       start
