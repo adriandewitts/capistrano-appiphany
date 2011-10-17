@@ -1,19 +1,20 @@
-require 'capistrano/appiphany/common'
+require 'appiphany/capistrano/common'
 
 configuration = Capistrano::Configuration.respond_to?(:instance) ?
   Capistrano::Configuration.instance(:must_exist) :
   Capistrano.configuration(:must_exist)
 
 configuration.load do
-  _cset :use_sudo,      false
+  _cset :use_sudo, false
 
   # SCM settings
+  set :scm, 'git'
+
   _cset(:appdir)     { "/home/#{user}/#{application}" }
-  _cset :scm,        'git'
   _cset :branch,     'master'
   _cset :deploy_via, 'remote_cache'
 
-  set(:deploy_to)  { appdir }
+  set(:deploy_to) { appdir }
 
   # Git settings for capistrano
   default_run_options[:pty]   = true # needed for git password prompts

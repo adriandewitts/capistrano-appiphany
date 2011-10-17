@@ -1,4 +1,4 @@
-require 'capistrano/appiphany/common'
+require 'appiphany/capistrano/common'
 
 configuration = Capistrano::Configuration.respond_to?(:instance) ?
   Capistrano::Configuration.instance(:must_exist) :

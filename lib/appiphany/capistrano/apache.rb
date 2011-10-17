@@ -1,4 +1,4 @@
-require 'capistrano/appiphany/common'
+require 'appiphany/capistrano/common'
 
 configuration = Capistrano::Configuration.respond_to?(:instance) ?
   Capistrano::Configuration.instance(:must_exist) :
@@ -26,7 +26,7 @@ configuration.load do
     end
 
     task :configure do
-      sudo "ln -sf #{current_path}/config/deploy/apache_vhost.conf /etc/apache2/sites-available/#{application}"
+      sudo "ln -sf #{current_path}/config/deploy/apache_vhost.conf /etc/apache2/sites-enabled/#{application}"
     end
   end
 end

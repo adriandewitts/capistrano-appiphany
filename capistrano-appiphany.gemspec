@@ -20,11 +20,11 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "capistrano-appiphany.gemspec",
-    "lib/capistrano/appiphany/apache.rb",
-    "lib/capistrano/appiphany/base.rb",
-    "lib/capistrano/appiphany/common.rb",
-    "lib/capistrano/appiphany/passenger.rb",
-    "lib/capistrano/appiphany/thinking_sphinx.rb"
+    "lib/appiphany/capistrano/apache.rb",
+    "lib/appiphany/capistrano/base.rb",
+    "lib/appiphany/capistrano/common.rb",
+    "lib/appiphany/capistrano/passenger.rb",
+    "lib/appiphany/capistrano/thinking_sphinx.rb"
   ]
   s.homepage = "http://github.com/ivanyv/capistrano-appiphany"
   s.require_paths = ["lib"]

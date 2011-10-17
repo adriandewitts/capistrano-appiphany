@@ -1,4 +1,4 @@
-require 'capistrano/appiphany/common'
+require 'appiphany/capistrano/common'
 
 configuration = Capistrano::Configuration.respond_to?(:instance) ?
   Capistrano::Configuration.instance(:must_exist) :
@@ -13,7 +13,7 @@ configuration.load do
 
     desc 'Stop a Passenger Standalone instance'
     task :stop do
-      run "cd #{current_path} && RBENV_VERSION=#{rbenv_version} passenger stop -p#{passenger_port}"
+      run "cd #{current_path} && RBENV_VERSION=#{rbenv_version} passenger stop -p#{passenger_port} || true"
     end
 
     desc 'Restart a Passenger Standalone instance'
