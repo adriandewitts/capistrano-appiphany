@@ -34,5 +34,6 @@ configuration.load do
   end
 
   after 'deploy:update_code', 'app:symlinks'
+  after('deploy:setup') { run "mkdir -p #{shared_path}/config" }
 end
 
