@@ -26,7 +26,7 @@ configuration.load do
     end
 
     task :configure do
-      sudo "ln -sf #{current_path}/config/#{application}_vhost.conf /etc/apache2/sites-available/#{application}"
+      sudo "ln -sf #{current_path}/config/deploy/apache_vhost.conf /etc/apache2/sites-available/#{application}"
     end
   end
 end
