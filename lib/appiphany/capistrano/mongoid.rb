@@ -7,7 +7,7 @@ configuration = Capistrano::Configuration.respond_to?(:instance) ?
 configuration.load do
   namespace :mongoid do
     task :symlink do
-      sudo "ln -sf #{shared_path}/config/mongoid.yml #{current_path}/config/mongoid.yml"
+      sudo "ln -sf #{shared_path}/config/mongoid.yml #{release_path}/config/mongoid.yml"
     end
   end
 end
