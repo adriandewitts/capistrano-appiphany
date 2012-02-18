@@ -5,6 +5,9 @@ configuration = Capistrano::Configuration.respond_to?(:instance) ?
   Capistrano.configuration(:must_exist)
 
 configuration.load do
+  default_environment['PATH'] = '$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH'
+  default_environment['RBENV_VERSION'] = rbenv_version if exists?(:rbenv_version)
+
   _cset :use_sudo, false
 
   # SCM settings
@@ -34,7 +37,50 @@ configuration.load do
     end
   end
 
+  namespace :db do
+    desc 'Create database.yml config file'
+    task :configure do
+      template = <<CONFIG
+%ENV%:
+  adapter: %ADAPTER%
+  encoding: %ENCODING%
+  reconnect: %RECONNECT%
+  pool: %POOL%
+  host: %HOST%
+  database: %DATABASE%
+  username: %USERNAME%
+  password: %PASSWORD%
+CONFIG
+
+      hl = Capistrano::CLI.ui
+      hl.say 'Configure the database.yml file'
+
+      begin
+        template.gsub! '%ENV%', (hl.ask('Environment:') { |q| q.default = 'production' })
+        template.gsub! '%ADAPTER%', hl.ask('Adapter (mysql|mysql2|pg):')
+        template.gsub! '%ENCODING%', (hl.ask('Encoding:') { |q| q.default = 'utf8' })
+        template.gsub! '%RECONNECT%', (hl.ask('Reconnect:') { |q| q.default = 'false' })
+        template.gsub! '%POOL%', (hl.ask('Pool:') { |q| q.default = '5' })
+        template.gsub! '%HOST%', hl.ask('Host:')
+        template.gsub! '%DATABASE%', hl.ask('Database:') { |q| q.default = application }
+        template.gsub! '%USERNAME%', hl.ask('Username:')
+        template.gsub! '%PASSWORD%', hl.ask('Password:')
+        puts template
+      end while hl.ask('Is this ok? (y/n)').downcase != 'y'
+
+      put template, "#{shared_path}/config/database.yml"
+    end
+  end
+
   after 'deploy:update_code', 'app:symlinks'
-  after('deploy:setup') { run "mkdir -p #{shared_path}/config" }
+  after('deploy:setup') do
+    run "mkdir -p #{shared_path}/config"
+    location = "/home/#{user}/logs/#{application}"
+    run "rmdir #{shared_path}/log && mkdir -p #{location} && ln -s #{location} #{shared_path}/log"
+
+    if File.exists?(File.join(rails_root, 'config/database.yml.example'))
+      db.configure
+    end
+  end
 end
 
