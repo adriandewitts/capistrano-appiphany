@@ -14,7 +14,7 @@ configuration.load do
     # These tasks first 'cd' so we go out of the current dir and the default rbenv version is used
 
     task :quit do
-      sudo 'stop god'
+      sudo 'stop god; true'
     end
 
     task :start do
