@@ -8,7 +8,9 @@ configuration.load do
   namespace :passenger do
     desc 'Trigger compilation'
     task :compile do
-      run "cd #{current_path} && bundle exec passenger status"
+      run "cd #{current_path} && bundle exec passenger start -d -p 3123 --pid-file #{current_path}/tmp/passenger.install.pid"
+      sleep 3 # Give it 3 seconds to start
+      run "kill `cat #{current_path}/tmp/passenger.install.pid`"
     end
   end
 
