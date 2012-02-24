@@ -53,6 +53,7 @@ CONFIG
 
       hl = Capistrano::CLI.ui
       hl.say 'Configure the database.yml file'
+      response = nil
 
       begin
         t = template
@@ -67,9 +68,9 @@ CONFIG
         t.gsub! '%PASSWORD%', hl.ask('Password:')
         puts
         puts t
-      end while hl.ask('Is this ok? (y/n)').downcase != 'y'
+      end while (response = hl.ask('Is this ok? (y/n/[s]kip)').downcase) != 'y' && response != 's'
 
-      put template, "#{shared_path}/config/database.yml"
+      put template, "#{shared_path}/config/database.yml" unless response == 's'
     end
   end
 
