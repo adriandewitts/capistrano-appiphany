@@ -20,10 +20,11 @@ configuration.load do
       run "touch #{current_path}/tmp/restart.txt"
     end
 
-    after 'deploy' do
-      releases = capture("ls -l #{release_path}/..").split("\n").size - 1
-      passenger.compile if releases == 1
-    end
+    # This doesn't work reliably
+    # after 'deploy' do
+    #   releases = capture("ls -l #{release_path}/..").split("\n").size - 1
+    #   passenger.compile if releases == 1
+    # end
 
     [ :start, :stop ].each do |t|
       desc "#{t} task is a no-op with Passenger"
