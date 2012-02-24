@@ -19,7 +19,7 @@ configuration.load do
     end
 
     after 'deploy' do
-      releases = capture("ls -l #{release_path}..").split("\n").size - 1
+      releases = capture("ls -l #{release_path}/..").split("\n").size - 1
       passenger.compile if releases == 1
     end
 
