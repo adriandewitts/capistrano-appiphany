@@ -8,7 +8,7 @@ configuration.load do
   namespace :nginx do
     desc 'Configure with deploy/nginx file'
     task :configure, :roles => :app, :except => { :no_release => true } do
-      run "#{sudo} ln -nfs #{current_path}/config/nginx /etc/nginx/sites-enabled"
+      run "#{sudo} ln -nfs #{current_path}/config/nginx /etc/nginx/sites-enabled/#{application}"
     end
 
     [ :start, :stop ].each do |t|
