@@ -5,8 +5,7 @@ configuration = Capistrano::Configuration.respond_to?(:instance) ?
   Capistrano.configuration(:must_exist)
 
 configuration.load do
-  default_environment['PATH'] = '$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH'
-  default_environment['RBENV_VERSION'] = rbenv_version if exists?(:rbenv_version)
+  default_environment['PATH'] = '/opt/rbenv/shims:/opt/rbenv/bin:$PATH'
 
   _cset :use_sudo, false
 
@@ -56,16 +55,18 @@ CONFIG
       hl.say 'Configure the database.yml file'
 
       begin
-        template.gsub! '%ENV%', (hl.ask('Environment:') { |q| q.default = 'production' })
-        template.gsub! '%ADAPTER%', hl.ask('Adapter (mysql|mysql2|pg):')
-        template.gsub! '%ENCODING%', (hl.ask('Encoding:') { |q| q.default = 'utf8' })
-        template.gsub! '%RECONNECT%', (hl.ask('Reconnect:') { |q| q.default = 'false' })
-        template.gsub! '%POOL%', (hl.ask('Pool:') { |q| q.default = '5' })
-        template.gsub! '%HOST%', hl.ask('Host:')
-        template.gsub! '%DATABASE%', hl.ask('Database:') { |q| q.default = application }
-        template.gsub! '%USERNAME%', hl.ask('Username:')
-        template.gsub! '%PASSWORD%', hl.ask('Password:')
-        puts template
+        t = template
+        t.gsub! '%ENV%', (hl.ask('Environment:') { |q| q.default = 'production' })
+        t.gsub! '%ADAPTER%', hl.ask('Adapter (mysql|mysql2|pg):')
+        t.gsub! '%ENCODING%', (hl.ask('Encoding:') { |q| q.default = 'utf8' })
+        t.gsub! '%RECONNECT%', (hl.ask('Reconnect:') { |q| q.default = 'false' })
+        t.gsub! '%POOL%', (hl.ask('Pool:') { |q| q.default = '5' })
+        t.gsub! '%HOST%', hl.ask('Host:')
+        t.gsub! '%DATABASE%', hl.ask('Database:') { |q| q.default = application }
+        t.gsub! '%USERNAME%', hl.ask('Username:')
+        t.gsub! '%PASSWORD%', hl.ask('Password:')
+        puts
+        puts t
       end while hl.ask('Is this ok? (y/n)').downcase != 'y'
 
       put template, "#{shared_path}/config/database.yml"
@@ -76,10 +77,16 @@ CONFIG
   after('deploy:setup') do
     run "mkdir -p #{shared_path}/config"
     location = "/home/#{user}/logs/#{application}"
-    run "rmdir #{shared_path}/log && mkdir -p #{location} && ln -s #{location} #{shared_path}/log"
+    run "rm -rf #{shared_path}/log && mkdir -p #{location} && ln -nfs #{location} #{shared_path}/log"
 
-    if File.exists?(File.join(rails_root, 'config/database.yml.example'))
+    if File.exists?(File.join(rails_root, 'config/database.example.yml'))
       db.configure
+    end
+  end
+
+  after('deploy:create_symlink') do
+    if File.exists?(File.join(rails_root, '.rbenv_version'))
+      run "ln -nfs #{current_path}/.rbenv-version #{shared_path}/.."
     end
   end
 end

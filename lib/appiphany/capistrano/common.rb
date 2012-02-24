@@ -3,3 +3,8 @@ def _cset(name, *args, &block)
     set(name, *args, &block)
   end
 end
+
+def remote_file_exists?(path)
+  'true' == capture("if [ -e #{path} ]; then echo 'true'; fi").strip
+end
+
