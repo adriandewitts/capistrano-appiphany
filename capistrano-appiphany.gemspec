@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "capistrano-appiphany"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ivan Vega"]
-  s.date = "2011-10-17"
+  s.date = "2012-02-24"
   s.description = "Appiphany recipes for Capistrano"
   s.email = "ivan@appiphany.com.au"
   s.extra_rdoc_files = [
@@ -23,12 +23,15 @@ Gem::Specification.new do |s|
     "lib/appiphany/capistrano/apache.rb",
     "lib/appiphany/capistrano/base.rb",
     "lib/appiphany/capistrano/common.rb",
+    "lib/appiphany/capistrano/god.rb",
+    "lib/appiphany/capistrano/mongoid.rb",
+    "lib/appiphany/capistrano/nginx.rb",
     "lib/appiphany/capistrano/passenger.rb",
     "lib/appiphany/capistrano/thinking_sphinx.rb"
   ]
   s.homepage = "http://github.com/ivanyv/capistrano-appiphany"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "1.8.11"
   s.summary = "Appiphany recipes for Capistrano"
 
   if s.respond_to? :specification_version then
