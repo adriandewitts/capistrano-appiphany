@@ -86,8 +86,8 @@ CONFIG
   end
 
   after('deploy:create_symlink') do
-    if File.exists?(File.join(rails_root, '.rbenv_version'))
-      run "ln -nfs #{current_path}/.rbenv-version #{shared_path}/.."
+    if File.exists?(File.join(rails_root, '.rbenv-version'))
+      run "ln -nfs #{current_path}/.rbenv-version #{shared_path}/../.rbenv-version"
     end
   end
 end
