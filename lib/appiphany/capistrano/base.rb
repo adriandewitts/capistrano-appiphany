@@ -30,9 +30,9 @@ configuration.load do
 
     desc 'Create app symlinks (database.yml...)'
     task :symlinks do
-      run <<-CMD
-        ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml
-      CMD
+      if remote_file_exists?("#{shared_path}/config/database.yml")
+        run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+      end
     end
   end
 

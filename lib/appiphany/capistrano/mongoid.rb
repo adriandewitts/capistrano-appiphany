@@ -10,5 +10,7 @@ configuration.load do
       sudo "ln -sf #{shared_path}/config/mongoid.yml #{release_path}/config/mongoid.yml"
     end
   end
+
+  after 'deploy:update_code', 'mongoid:symlink'
 end
 
