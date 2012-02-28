@@ -11,8 +11,6 @@ end
 
 configuration.load do
   namespace :god do
-    # These tasks first 'cd' so we go out of the current dir and the default rbenv version is used
-
     task :quit do
       sudo 'stop god; true'
     end
