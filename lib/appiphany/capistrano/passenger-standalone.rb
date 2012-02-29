@@ -8,15 +8,15 @@ configuration.load do
   namespace :deploy do
     desc 'Use god to restart the service'
     task :restart do
-      run "#{sudo} god restart #{application}-passenger"
+      run "#{sudo} -i god restart #{application}-passenger"
     end
 
     task :start do
-      run "#{sudo} god start #{application}-passenger"
+      run "#{sudo} -i god start #{application}-passenger"
     end
 
     task :stop do
-      run "#{sudo} god stop #{application}-passenger"
+      run "#{sudo} -i god stop #{application}-passenger"
     end
   end
 end
