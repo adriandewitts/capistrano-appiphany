@@ -7,7 +7,7 @@ configuration = Capistrano::Configuration.respond_to?(:instance) ?
 configuration.load do
   namespace :whenever do
     task :update_crontab do
-      run "cd #{release_path} && bundle exec whenever --update-crontab #{application}"
+      run "cd #{current_path} && bundle exec whenever --update-crontab #{application}"
     end
   end
 
