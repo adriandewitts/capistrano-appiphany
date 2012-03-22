@@ -20,7 +20,15 @@ configuration.load do
     end
 
     task :restart_all do
-      god_cmd "restart #{application};true"
+      god_cmd "restart #{application} || sleep 10; restart #{application}"
+    end
+
+    task :restart do
+      if ENV['SERVICE']
+        god_cmd "restart #{ENV['SERVICE']}"
+      else
+        raise "Specify SERVICE=name to restart"
+      end
     end
   end
 
