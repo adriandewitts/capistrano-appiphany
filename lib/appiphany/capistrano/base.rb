@@ -90,5 +90,7 @@ CONFIG
       run "ln -nfs #{current_path}/.rbenv-version #{shared_path}/../.rbenv-version"
     end
   end
+
+  before 'deploy:assets:precompile', 'app:symlinks'
 end
 
