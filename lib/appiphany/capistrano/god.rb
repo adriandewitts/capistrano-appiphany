@@ -4,9 +4,9 @@ configuration = Capistrano::Configuration.respond_to?(:instance) ?
   Capistrano::Configuration.instance(:must_exist) :
   Capistrano.configuration(:must_exist)
 
-def god_cmd(cmd)
+def god_cmd
   rbenv_version = capture('cat /opt/rbenv/version').strip
-  run "#{sudo} -i RBENV_VERSION=#{rbenv_version} god #{cmd}"
+  "#{sudo} -i RBENV_VERSION=#{rbenv_version} god"
 end
 
 configuration.load do
@@ -20,12 +20,12 @@ configuration.load do
     end
 
     task :restart_all do
-      god_cmd "restart #{application} || sleep 10; restart #{application}"
+      run "#{god_cmd} restart #{application} || (sleep 10; #{god_cmd} restart #{application})"
     end
 
     task :restart do
       if ENV['SERVICE']
-        god_cmd "restart #{ENV['SERVICE']}"
+        "#{god_cmd} restart #{ENV['SERVICE']}"
       else
         raise "Specify SERVICE=name to restart"
       end
