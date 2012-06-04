@@ -23,11 +23,6 @@ configuration.load do
   ssh_options[:forward_agent] = true # use the keys for the person running the cap command to check out the app
 
   namespace :app do
-    desc 'Update the crontab file (Whenever)'
-    task :update_crontab do
-      run "cd #{current_path} && bundle exec whenever --update-crontab #{application}"
-    end
-
     desc 'Create app symlinks (database.yml...)'
     task :symlinks do
       if remote_file_exists?("#{shared_path}/config/database.yml")
@@ -93,4 +88,3 @@ CONFIG
 
   before 'deploy:assets:precompile', 'app:symlinks'
 end
-
